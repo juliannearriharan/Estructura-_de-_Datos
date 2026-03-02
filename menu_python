@@ -1,0 +1,49 @@
+# 1. Función Factorial
+def factorial(n):
+    if n == 0 or n == 1:
+        return 1
+    return n * factorial(n - 1)
+
+# 2. Función Tabla de Sumar (Recursiva)
+def tabla_sumar_recursiva(n, i=1):
+    if i <= 10:
+        print(f"{n} + {i} = {n + i}")
+        tabla_sumar_recursiva(n, i + 1)
+
+# 3. Suma de Cuadrados de los primeros N números
+def suma_cuadrados(n):
+    if n == 1:
+        return 1
+    return (n ** 2) + suma_cuadrados(n - 1)
+
+
+# ----- MENU PRINCIPAL -----
+opcion = -1
+
+while (opcion != 0):
+    print("\n----- MENU -----")
+    print("1. Calcular Factorial")
+    print("2. Ver Tabla de Sumar (1 al 10)")
+    print("3. Suma de Cuadrados de N números")
+    print("0. Salir")
+
+    opcion = int(input("Elige una opción: "))
+
+    if opcion == 1:
+        num = int(input("Ingresa el número: "))
+        print("El factorial es:", factorial(num))
+
+    elif opcion == 2:
+        num = int(input("¿De qué número querés la tabla de sumar? "))
+        print(f"--- Tabla del {num} ---")
+        tabla_sumar_recursiva(num)
+
+    elif opcion == 3:
+        num = int(input("¿Hasta qué número sumar los cuadrados? "))
+        print("La suma es:", suma_cuadrados(num))
+
+    elif opcion == 0:
+        print("Saliendo del programa...")
+
+    else:
+        print("opcion invalida")
