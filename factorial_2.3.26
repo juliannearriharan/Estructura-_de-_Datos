@@ -1,0 +1,8 @@
+def factorial (numero):
+    if (numero == 0 or numero == 1):
+        return 1
+    else:
+        return numero * factorial (numero - 1)
+n = int(input("Ingrese tu numero hasta donde se calculara el factorial"))
+resultado = factorial(n)
+print(resultado)
