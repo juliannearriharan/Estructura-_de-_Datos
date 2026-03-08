@@ -1,0 +1,41 @@
+def factorial(n):
+    if(n==0 or n==1):
+        return 1
+    else:
+        return n*factorial(n-1)
+def cuenta_atras(numero):
+    if (numero==0):
+        return 0
+    else:
+        print("Cuenta atras: ", numero)
+        return cuenta_atras(numero-1)
+def suma_cuadrados(num):
+    if num == 1:
+        return 1
+    else:
+        return (num ** 2) + suma_cuadrados(num - 1)
+opcion = -1
+while (opcion != 0):
+    print("="*20)
+    print(" MENU")
+    print("="*20)
+    print("1. Factorial")
+    print("2. Cuenta atras")
+    print("3. Suma de cuadrados")
+    print("0. Salir")
+    opcion=int(input("Ingrese la opción que desea ejecutar: "))
+
+    if opcion==1:
+        n=int(input("Ingrese el número por favor: "))
+        print("Factorial: ", factorial(n))
+    elif opcion==2:
+        numero=int(input("Ingrese el número por favor: "))
+        print(cuenta_atras(numero))
+    elif opcion==3:
+        num=int(input("Ingrese el número por favor: "))
+        print("Suma de cuadrados: ", (num ** 2) + suma_cuadrados(num - 1))
+    elif (opcion == 0):
+        print("El programa se ha cerrado correctamente")
+    else:
+        print("Opción inválida")
+        print("Error: Ingrese un número entero por favor: ")
