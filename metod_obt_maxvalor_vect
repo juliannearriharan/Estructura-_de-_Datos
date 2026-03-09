@@ -1,0 +1,109 @@
+/******************************************************************************
+
+ Método para obtener el máximo valor del vector - JAB
+
+*******************************************************************************/
+#include <iostream>
+#define MAX 10
+
+using namespace std;
+
+class Vector
+{
+private:
+	int vec[10], n;
+public:
+	Vector(void); // constructor
+	~Vector(void); //destructor
+
+	void cargarVector(int vec[], int n); 
+	void mostrarVector(int vec[], int n);
+	int maximoVector(int vec[], int n);   // NUEVO METODO
+};
+
+Vector::Vector(void)
+{
+	vec[10]=0;
+	n=0;
+}
+
+Vector::~Vector(void)
+{
+}
+
+void Vector::cargarVector(int vec[], int n){
+	for(int i=0;i<n;i++){
+		cout<<"vec["<<i<<"] =" ;
+		cin>>vec[i];
+	}
+}
+
+void Vector::mostrarVector(int vec[], int n){
+	for(int i=0;i<n;i++){
+		cout<<vec[i]<<", ";
+	}
+	cout<<endl;
+}
+
+/* METODO PARA OBTENER EL MAXIMO DEL VECTOR */
+
+int Vector::maximoVector(int vec[], int n){
+	int max;
+
+	max = vec[0];
+
+	for(int i=1;i<n;i++){
+		if(vec[i] > max){
+			max = vec[i];
+		}
+	}
+	return max;
+}
+
+
+int main(){
+	int vec[MAX], n, op, max;
+	Vector vector1;  // objeto de la clase Vector
+
+	do {
+		cout<<"Ingrese el tamanio del vector : ";
+		cin>>n;
+	} while ((n>MAX) || (n<=0));
+
+	do{
+		cout<<"-----       M E N U        -----"<<endl;
+		cout<<"|1.- Cargar Vector.            |"<<endl;
+		cout<<"|2.- Mostrar Vector.           |"<<endl;
+		cout<<"|3.- Maximo del Vector.        |"<<endl;
+		cout<<"|0.- Salir                     |"<<endl;
+		cout<<"--------------------------------"<<endl;
+		cout<<" Elija una opcion"<<endl;
+		cin>>op;
+
+		switch(op){
+		case 1:
+			vector1.cargarVector(vec, n);
+			break;
+
+		case 2:
+			vector1.mostrarVector(vec, n);
+			break;
+
+		case 3:
+			max = vector1.maximoVector(vec, n);
+			cout<<"El valor maximo del vector es: "<<max<<endl;
+			break;
+
+		case 0: 
+			cout<<"Salir"<<endl;
+			break;
+
+		default:
+			cout<<"Error: Opcion no valida..."<<endl;
+			break;
+		}
+
+	}while(op!=0);
+
+    return 0;
+}
