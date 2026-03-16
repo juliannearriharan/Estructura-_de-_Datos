@@ -1,0 +1,184 @@
+#ifndef VECTOR_H
+#define VECTOR_H
+
+#include <iostream>
+#include <string>
+
+#define MAX 100
+
+class Vector {
+private:
+    int vec[MAX];
+    int n;
+
+public:
+    Vector();
+    ~Vector();
+
+    void cargarVector(int v[], int &tam);
+    void mostrarVector(int v[], int tam);
+    void ordenarVector(int v[], int tam);
+    void promedio3Consecutivos(int v[], int tam); // Ejercicio 6 corregido
+    double calcularPromedioTotal(int v[], int tam);
+    int maximoVector(int v[], int tam);
+    bool esCapicua(int v[], int tam);
+    void eliminarDuplicados(int v[], int &tam);
+    void revertirVector(int v[], int tam);
+    float encontrarMinimo(int v[], int tam); // Simplificado para coherencia
+};
+
+#endif
+
+#include "Vector.h"
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+Vector::Vector() {
+    n = 0;
+}
+
+Vector::~Vector() {}
+
+void Vector::cargarVector(int v[], int &tam) {
+    for(int i = 0; i < tam; i++) {
+        cout << "vec[" << i << "] = ";
+        cin >> v[i];
+    }
+}
+
+void Vector::mostrarVector(int v[], int tam) {
+    for(int i = 0; i < tam; i++) {
+        cout << v[i] << (i == tam - 1 ? "" : ", ");
+    }
+    cout << endl;
+}
+
+void Vector::ordenarVector(int v[], int tam) {
+    for(int i = 0; i < tam - 1; i++) {
+        for(int j = i + 1; j < tam; j++) {
+            if(v[i] > v[j]) {
+                int aux = v[i];
+                v[i] = v[j];
+                v[j] = aux;
+            }
+        }
+    }
+}
+
+void Vector::promedio3Consecutivos(int v[], int tam) {
+    if (tam < 3) {
+        cout << "Se necesitan al menos 3 elementos." << endl;
+        return;
+    }
+    for (int i = 0; i < tam - 2; i++) {
+        double prom = (v[i] + v[i+1] + v[i+2]) / 3.0;
+        cout << "Promedio " << i+1 << "-" << i+3 << ": " << prom << endl;
+    }
+}
+
+double Vector::calcularPromedioTotal(int v[], int tam) {
+    int suma = 0;
+    for(int i = 0; i < tam; i++) suma += v[i];
+    return (tam > 0) ? (double)suma / tam : 0;
+}
+
+int Vector::maximoVector(int v[], int tam) {
+    int max = v[0];
+    for(int i = 1; i < tam; i++) {
+        if(v[i] > max) max = v[i];
+    }
+    return max;
+}
+
+bool Vector::esCapicua(int v[], int tam) {
+    for (int i = 0; i < tam / 2; i++) {
+        if (v[i] != v[tam - 1 - i]) return false;
+    }
+    return true;
+}
+
+void Vector::eliminarDuplicados(int v[], int &tam) {
+    for (int i = 0; i < tam; i++) {
+        for (int j = i + 1; j < tam; j++) {
+            if (v[i] == v[j]) {
+                for (int k = j; k < tam - 1; k++) {
+                    v[k] = v[k + 1];
+                }
+                tam--;
+                j--;
+            }
+        }
+    }
+}
+
+void Vector::revertirVector(int v[], int tam) {
+    for (int i = 0; i < tam / 2; i++) {
+        int aux = v[i];
+        v[i] = v[tam - 1 - i];
+        v[tam - 1 - i] = aux;
+    }
+}
+
+float Vector::encontrarMinimo(int v[], int tam) {
+    int min = v[0];
+    for(int i = 1; i < tam; i++) {
+        if(v[i] < min) min = v[i];
+    }
+    return (float)min;
+}
+
+#include <iostream>
+#include "Vector.h"
+
+using namespace std;
+
+int main() {
+    int vec[MAX], n, op;
+    Vector vector1;
+
+    cout << "Ingrese el tamanio inicial del vector: ";
+    cin >> n;
+
+    do {
+        cout << "\n----- M E N U -----" << endl;
+        cout << "1.- Cargar Vector" << endl;
+        cout << "2.- Mostrar Vector" << endl;
+        cout << "3.- Ordenar Vector" << endl;
+        cout << "4.- Promedio de 3 consecutivos" << endl;
+        cout << "5.- Maximo del Vector" << endl;
+        cout << "6.- Es Capicua?" << endl;
+        cout << "7.- Calcular promedio total" << endl;
+        cout << "8.- Elemento minimo" << endl;
+        cout << "12.- Eliminar duplicados" << endl;
+        cout << "13.- Revertir vector" << endl;
+        cout << "0.- Salir" << endl;
+        cout << "-------------------" << endl;
+        cout << "Opcion: ";
+        cin >> op;
+
+        switch(op) {
+            case 1: vector1.cargarVector(vec, n); break;
+            case 2: vector1.mostrarVector(vec, n); break;
+            case 3: vector1.ordenarVector(vec, n); break;
+            case 4: vector1.promedio3Consecutivos(vec, n); break;
+            case 5: cout << "Maximo: " << vector1.maximoVector(vec, n) << endl; break;
+            case 6: 
+                if(vector1.esCapicua(vec, n)) cout << "Es capicua." << endl;
+                else cout << "No es capicua." << endl;
+                break;
+            case 7: cout << "Promedio: " << vector1.calcularPromedioTotal(vec, n) << endl; break;
+            case 8: cout << "Minimo: " << vector1.encontrarMinimo(vec, n) << endl; break;
+            case 12: 
+                vector1.eliminarDuplicados(vec, n); 
+                cout << "Duplicados eliminados. Nuevo tamanio: " << n << endl;
+                break;
+            case 13: vector1.revertirVector(vec, n); break;
+            case 0: cout << "Saliendo..." << endl; break;
+            default: cout << "Opcion no valida." << endl;
+        }
+    } while(op != 0);
+
+    return 0;
+}
