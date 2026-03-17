@@ -1,0 +1,158 @@
+#include <iostream>
+#define MAXCOL 20
+#define MAXROW 20
+
+using namespace std;
+
+void cargar(int matrix[MAXROW][MAXCOL], int n, int m);
+void mostrar(int matrix[MAXROW][MAXCOL], int n, int m);
+void transpuesta(int matrix[MAXROW][MAXCOL], int &n, int &m);
+void inversa(int matrix[MAXROW][MAXCOL], int n, int m);
+
+int main()
+{
+    int tamrow, tamcol, matriz[MAXROW][MAXCOL];
+    int op;
+
+    do {
+        cout << "Ingrese el numero de filas: ";
+        cin >> tamrow;
+    } while ((tamrow <= 0) || (tamrow > MAXROW));
+
+    do {
+        cout << "Ingrese el numero de columnas: ";
+        cin >> tamcol;
+    } while ((tamcol <= 0) || (tamcol > MAXCOL));
+
+    do {
+        cout << "\n********MENU********" << endl;
+        cout << "1. Cargar matriz" << endl;
+        cout << "2. Mostrar matriz" << endl;
+        cout << "3. Transpuesta" << endl;
+        cout << "4. Matriz inversa (solo 2x2)" << endl;
+        cout << "0. Salir" << endl;
+        cout << "Escoja una opcion: ";
+        cin >> op;
+
+        switch (op)
+        {
+        case 1:
+            cargar(matriz, tamrow, tamcol);
+            break;
+
+        case 2:
+            mostrar(matriz, tamrow, tamcol);
+            break;
+
+        case 3:
+            transpuesta(matriz, tamrow, tamcol);
+            cout << "Matriz transpuesta:\n";
+            mostrar(matriz, tamrow, tamcol);
+            break;
+
+        case 4:
+            inversa(matriz, tamrow, tamcol);
+            break;
+
+        case 0:
+            cout << "Saliendo...\n";
+            break;
+
+        default:
+            cout << "Opcion invalida\n";
+        }
+
+    } while (op != 0);
+}
+
+void cargar(int matrix[MAXROW][MAXCOL], int n, int m) {
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++) {
+            cout << "matriz[" << i + 1 << "][" << j + 1 << "]: ";
+            cin >> matrix[i][j];
+        }
+}
+
+void mostrar(int matrix[MAXROW][MAXCOL], int n, int m) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++)
+            cout << matrix[i][j] << " ";
+        cout << endl;
+    }
+}
+
+void transpuesta(int matrix[MAXROW][MAXCOL], int &n , int &m) {
+
+    int temp[MAXROW][MAXCOL];
+
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+            temp[j][i] = matrix[i][j];
+
+    for (int i = 0; i < m; i++)
+        for (int j = 0; j < n; j++)
+            matrix[i][j] = temp[i][j];
+
+    int aux = n;
+    n = m;
+    m = aux;
+}
+
+void inversa(int matrix[MAXROW][MAXCOL], int n, int m)
+{
+    if (n != m) {
+        cout << "La matriz debe ser cuadrada para tener inversa\n";
+        return;
+    }
+
+    float A[MAXROW][MAXCOL];
+    float I[MAXROW][MAXCOL];
+
+    // Copiar matriz y crear identidad
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            A[i][j] = matrix[i][j];
+            if(i==j)
+                I[i][j] = 1;
+            else
+                I[i][j] = 0;
+        }
+    }
+
+    for(int i=0;i<n;i++){
+
+        float pivote = A[i][i];
+
+        if(pivote == 0){
+            cout<<"La matriz no tiene inversa\n";
+            return;
+        }
+
+        // Hacer pivote = 1
+        for(int j=0;j<n;j++){
+            A[i][j] = A[i][j] / pivote;
+            I[i][j] = I[i][j] / pivote;
+        }
+
+        // Hacer 0 en la columna
+        for(int k=0;k<n;k++){
+            if(k != i){
+
+                float factor = A[k][i];
+
+                for(int j=0;j<n;j++){
+                    A[k][j] = A[k][j] - factor*A[i][j];
+                    I[k][j] = I[k][j] - factor*I[i][j];
+                }
+            }
+        }
+    }
+
+    cout<<"Matriz inversa:\n";
+
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++)
+            cout<<I[i][j]<<" ";
+        cout<<endl;
+    }
+}
