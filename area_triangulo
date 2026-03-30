@@ -1,0 +1,48 @@
+//Primero el archivo "h"
+class Triangulo
+{
+private:
+	float base;
+	float altura;
+
+public: //Prototipo
+			Triangulo(); //Constructor
+			~Triangulo(); //Destructor
+
+		float calculararea(float b, float a)
+};
+
+//Luego el archivo "cpp"
+
+#include "Triangulo.h"
+
+Triangulo::Triangulo() {
+
+}
+
+Triangulo::~Triangulo() {
+
+}
+
+float calculararea(float b, float h); {
+return (b * a) / 2;
+}
+
+#include <iostream>
+#include "Triangulo.h" //Declarar la clase a utilizar
+
+using namespace std;
+
+//Luego el archivo "main"
+
+int main()
+{
+	float base, altura;
+	Triangulo triangulito; // Crear objeto de la clase
+	cout << "Ingresar la base: ";
+	cin >> base;
+	cout << "Ingresar la altura: ";
+	cin >> altura;
+	cout << "El area es: " << triangulito.calculararea(base, altura);
+	return o;
+}
