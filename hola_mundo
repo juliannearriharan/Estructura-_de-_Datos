@@ -1,0 +1,21 @@
+#include <iostream>
+#include <string>
+
+using namespace std; 
+
+class Saludo {
+private:
+    string mensaje = "Hola Mundo"; //Atributo
+public:
+    void mostrar(); //Métodos
+};
+
+void Saludo::mostrar() {
+    cout << mensaje;
+}
+
+int main()
+{
+    Saludo s1; //Corre el constructor
+    s1.mostrar();
+}
