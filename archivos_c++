@@ -1,0 +1,207 @@
+/*************************************************************/
+/*           PROGRAMA DE MANEJO DE ARCHIVOS EN C++           */
+/*                    Autor: Julianne                        */
+/*************************************************************/
+
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
+
+int main()
+{
+    int opcion;
+
+    string texto;
+
+    string nombreArchivo = "clase_datos.txt";
+
+    do
+    {
+        cout << "\n========================================" << endl;
+        cout << "   MENU DE ARCHIVOS EN C++ (EN VIVO)    " << endl;
+        cout << "========================================" << endl;
+
+        cout << "1. Crear/Sobrescribir archivo (ios::out)" << endl;
+        cout << "2. Leer todo el archivo (ios::in)" << endl;
+        cout << "3. Añadir texto al final (ios::app)" << endl;
+        cout << "4. Escribir en un byte especifico" << endl;
+        cout << "0. Salir" << endl;
+
+        cout << "========================================" << endl;
+
+        cout << "Elige una opcion: ";
+
+        cin >> opcion;
+
+        // Limpia el Enter del buffer
+        cin.ignore();
+
+        switch (opcion)
+        {
+
+        /*************************************************************/
+        /*               OPCION 1: CREAR ARCHIVO                     */
+        /*************************************************************/
+        case 1:
+        {
+            ofstream archivoOut(nombreArchivo, ios::out);
+
+            if (archivoOut.is_open())
+            {
+                cout << "\nEscribe el texto inicial del archivo:\n";
+
+                getline(cin, texto);
+
+                archivoOut << texto << endl;
+
+                archivoOut.close();
+
+                cout << "\n>> Archivo creado correctamente.\n";
+            }
+            else
+            {
+                cout << "\n>> Error al crear el archivo.\n";
+            }
+
+            break;
+        }
+
+        /*************************************************************/
+        /*               OPCION 2: LEER ARCHIVO                      */
+        /*************************************************************/
+        case 2:
+        {
+            ifstream archivoIn(nombreArchivo, ios::in);
+
+            if (archivoIn.is_open())
+            {
+                cout << "\n========== CONTENIDO DEL ARCHIVO ==========\n";
+
+                while (getline(archivoIn, texto))
+                {
+                    cout << texto << endl;
+                }
+
+                archivoIn.close();
+
+                cout << "===========================================\n";
+            }
+            else
+            {
+                cout << "\n>> Error: El archivo no existe.\n";
+                cout << ">> Primero crea uno con la opcion 1.\n";
+            }
+
+            break;
+        }
+
+        /*************************************************************/
+        /*             OPCION 3: AGREGAR TEXTO                       */
+        /*************************************************************/
+        case 3:
+        {
+            ofstream archivoApp(nombreArchivo, ios::app);
+
+            if (archivoApp.is_open())
+            {
+                cout << "\nEscribe el texto a añadir:\n";
+
+                getline(cin, texto);
+
+                archivoApp << texto << endl;
+
+                archivoApp.close();
+
+                cout << "\n>> Texto añadido correctamente.\n";
+            }
+            else
+            {
+                cout << "\n>> Error al abrir el archivo.\n";
+            }
+
+            break;
+        }
+
+        /*************************************************************/
+        /*      OPCION 4: ESCRIBIR EN BYTE ESPECIFICO                */
+        /*************************************************************/
+        case 4:
+        {
+            // Abrir archivo para lectura y escritura
+            fstream archivoPtr(
+                nombreArchivo,
+                ios::in | ios::out | ios::ate
+            );
+
+            if (archivoPtr.is_open())
+            {
+                // Mostrar tamaño actual del archivo
+                cout << "\n>> Tamaño actual del archivo: "
+                     << archivoPtr.tellp()
+                     << " bytes.\n";
+
+                int byteDestino;
+
+                // Pedir byte de escritura
+                cout << "Ingresa el byte donde deseas escribir: ";
+
+                cin >> byteDestino;
+
+                // Mover puntero
+                archivoPtr.seekp(byteDestino, ios::beg);
+
+                cout << ">> Puntero movido al byte "
+                     << archivoPtr.tellp()
+                     << ".\n";
+
+                // Limpiar Enter
+                cin.ignore();
+
+                // Pedir texto
+                cout << "Escribe el texto para sobreescribir:\n";
+
+                getline(cin, texto);
+
+                // Escribir
+                archivoPtr << texto;
+
+                archivoPtr.close();
+
+                cout << "\n>> Texto guardado correctamente.\n";
+            }
+            else
+            {
+                cout << "\n>> Error: El archivo no existe.\n";
+                cout << ">> Primero crea uno con la opcion 1.\n";
+            }
+
+            break;
+        }
+
+        /*************************************************************/
+        /*                     OPCION SALIR                          */
+        /*************************************************************/
+        case 0:
+
+            cout << "\nCerrando programa..." << endl;
+
+            cout << "Gracias por usar el sistema.\n";
+
+            break;
+
+        /*************************************************************/
+        /*                    OPCION INVALIDA                        */
+        /*************************************************************/
+        default:
+
+            cout << "\nOpcion no valida. Intenta nuevamente.\n";
+
+            break;
+        }
+
+    } while (opcion != 0);
+
+    return 0;
+}
