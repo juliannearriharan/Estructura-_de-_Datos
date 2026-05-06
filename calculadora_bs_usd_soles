@@ -1,0 +1,297 @@
+# ============================================================
+# Programa: Calculadora Bs ⇄ USDT ⇄ Soles
+# Autor: Julianne
+# Descripción:
+# Convierte Bolivianos a Soles y viceversa usando USDT,
+# incluyendo cálculo de comisión.
+# ============================================================
+
+import tkinter as tk
+from tkinter import messagebox
+
+
+# ============================================================
+# FUNCIÓN: Bolivianos → Soles
+# ============================================================
+def bolivianos_a_soles():
+
+    try:
+        # Obtener datos ingresados
+        bolivianos = float(entry_monto.get())
+
+        compra_usdt_bs = float(entry_compra_usdt_bs.get())
+
+        venta_usdt_soles = float(entry_venta_usdt_soles.get())
+
+        comision_pct = float(entry_comision.get())
+
+        # Validar comisión
+        if comision_pct < 0 or comision_pct > 100:
+            raise ValueError
+
+        # Conversión a USDT
+        usdt = bolivianos / compra_usdt_bs
+
+        # Comisión
+        comision_usdt = usdt * (comision_pct / 100)
+
+        comision_bs = comision_usdt * compra_usdt_bs
+
+        # USDT final
+        usdt_final = usdt - comision_usdt
+
+        # Conversión a Soles
+        soles = usdt_final * venta_usdt_soles
+
+        # Mostrar resultado
+        resultado.set(
+            "=========== RESULTADO ===========\n\n"
+
+            f"Monto inicial: Bs {bolivianos:.2f}\n"
+
+            f"USDT obtenidos: {usdt_final:.4f}\n"
+
+            f"Total en Soles: S/ {soles:.2f}\n\n"
+
+            "=========== COMISIÓN ===========\n\n"
+
+            f"Porcentaje: {comision_pct}%\n"
+
+            f"Comisión en USDT: {comision_usdt:.4f}\n"
+
+            f"Comisión en Bs: {comision_bs:.2f}"
+        )
+
+    except ValueError:
+
+        messagebox.showerror(
+            "Error",
+            "Datos inválidos.\n"
+            "Verifica números y comisión (0 - 100)."
+        )
+
+
+# ============================================================
+# FUNCIÓN: Soles → Bolivianos
+# ============================================================
+def soles_a_bolivianos():
+
+    try:
+        # Obtener datos ingresados
+        soles = float(entry_monto.get())
+
+        compra_usdt_bs = float(entry_compra_usdt_bs.get())
+
+        venta_usdt_soles = float(entry_venta_usdt_soles.get())
+
+        comision_pct = float(entry_comision.get())
+
+        # Validar comisión
+        if comision_pct < 0 or comision_pct > 100:
+            raise ValueError
+
+        # Conversión a USDT
+        usdt = soles / venta_usdt_soles
+
+        # Comisión
+        comision_usdt = usdt * (comision_pct / 100)
+
+        comision_bs = comision_usdt * compra_usdt_bs
+
+        # Total USDT
+        usdt_total = usdt + comision_usdt
+
+        # Conversión a Bolivianos
+        bolivianos = usdt_total * compra_usdt_bs
+
+        # Mostrar resultado
+        resultado.set(
+            "=========== RESULTADO ===========\n\n"
+
+            f"Monto deseado: S/ {soles:.2f}\n"
+
+            f"USDT necesarios: {usdt_total:.4f}\n"
+
+            f"Total a pagar: Bs {bolivianos:.2f}\n\n"
+
+            "=========== COMISIÓN ===========\n\n"
+
+            f"Porcentaje: {comision_pct}%\n"
+
+            f"Comisión en USDT: {comision_usdt:.4f}\n"
+
+            f"Comisión en Bs: {comision_bs:.2f}"
+        )
+
+    except ValueError:
+
+        messagebox.showerror(
+            "Error",
+            "Datos inválidos.\n"
+            "Verifica números y comisión (0 - 100)."
+        )
+
+
+# ============================================================
+# VENTANA PRINCIPAL
+# ============================================================
+
+ventana = tk.Tk()
+
+ventana.title("Calculadora Bs - USDT - Soles")
+
+# Tamaño de ventana
+ventana.geometry("520x600")
+
+ventana.resizable(False, False)
+
+
+# ============================================================
+# TÍTULO
+# ============================================================
+
+tk.Label(
+    ventana,
+    text="Calculadora Bs ⇄ USDT ⇄ Soles",
+    font=("Arial", 16, "bold")
+).pack(pady=15)
+
+
+# ============================================================
+# INPUT: MONTO
+# ============================================================
+
+tk.Label(
+    ventana,
+    text="Monto a convertir:",
+    font=("Arial", 11)
+).pack()
+
+entry_monto = tk.Entry(
+    ventana,
+    font=("Arial", 12),
+    justify="center"
+)
+
+entry_monto.pack(pady=5)
+
+
+# ============================================================
+# INPUT: PRECIO USDT EN Bs
+# ============================================================
+
+tk.Label(
+    ventana,
+    text="Precio de compra de 1 USDT en Bs:",
+    font=("Arial", 11)
+).pack()
+
+entry_compra_usdt_bs = tk.Entry(
+    ventana,
+    font=("Arial", 12),
+    justify="center"
+)
+
+entry_compra_usdt_bs.pack(pady=5)
+
+
+# ============================================================
+# INPUT: PRECIO USDT EN SOLES
+# ============================================================
+
+tk.Label(
+    ventana,
+    text="Precio de venta de 1 USDT en Soles:",
+    font=("Arial", 11)
+).pack()
+
+entry_venta_usdt_soles = tk.Entry(
+    ventana,
+    font=("Arial", 12),
+    justify="center"
+)
+
+entry_venta_usdt_soles.pack(pady=5)
+
+
+# ============================================================
+# INPUT: COMISIÓN
+# ============================================================
+
+tk.Label(
+    ventana,
+    text="Comisión (%):",
+    font=("Arial", 11)
+).pack()
+
+entry_comision = tk.Entry(
+    ventana,
+    font=("Arial", 12),
+    justify="center"
+)
+
+entry_comision.pack(pady=5)
+
+
+# ============================================================
+# FRAME DE BOTONES
+# ============================================================
+
+frame_botones = tk.Frame(ventana)
+
+frame_botones.pack(pady=15)
+
+
+# ============================================================
+# BOTÓN: Bs → Soles
+# ============================================================
+
+tk.Button(
+    frame_botones,
+    text="Bs → Soles",
+    font=("Arial", 11, "bold"),
+    width=20,
+    command=bolivianos_a_soles
+).grid(row=0, column=0, padx=5)
+
+
+# ============================================================
+# BOTÓN: Soles → Bs
+# ============================================================
+
+tk.Button(
+    frame_botones,
+    text="Soles → Bs",
+    font=("Arial", 11, "bold"),
+    width=20,
+    command=soles_a_bolivianos
+).grid(row=0, column=1, padx=5)
+
+
+# ============================================================
+# RESULTADO
+# ============================================================
+
+resultado = tk.StringVar()
+
+resultado.set("El resultado aparecerá aquí.")
+
+tk.Label(
+    ventana,
+    textvariable=resultado,
+    font=("Courier", 11),
+    justify="left",
+    fg="blue",
+    anchor="w"
+).pack(
+    padx=20,
+    pady=20,
+    fill="both"
+)
+
+
+# ============================================================
+# EJECUTAR VENTANA
+# ============================================================
+
+ventana.mainloop()
