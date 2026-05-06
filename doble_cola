@@ -1,0 +1,243 @@
+/*************************************************************/
+/*        PROGRAMA DE DOBLE COLA (DEQUE) EN C++              */
+/*                    Autor: Julianne                        */
+/*************************************************************/
+
+#include <iostream>
+#include <conio.h>
+
+using namespace std;
+
+// Tipo de dato que almacenará la cola
+typedef char DATA_TYPE;
+
+/*************************************************************/
+/*                         CLASE NODO                        */
+/*************************************************************/
+class Nodo
+{
+public:
+    DATA_TYPE data;
+
+    Nodo* next;
+    Nodo* prev;
+};
+
+/*************************************************************/
+/*                     CLASE DDQUEUE                         */
+/*************************************************************/
+class DDqueue
+{
+private:
+
+    int itemsize;
+    int items;
+
+    Nodo* cola;
+    Nodo* cabeza;
+
+public:
+
+    // Constructor
+    DDqueue()
+    {
+        cola = NULL;
+        cabeza = NULL;
+
+        items = 0;
+
+        itemsize = sizeof(DATA_TYPE);
+    }
+
+    // Destructor
+    ~DDqueue() {}
+
+    // Métodos
+    DATA_TYPE put_back(DATA_TYPE valor);
+
+    DATA_TYPE put_front(DATA_TYPE valor);
+
+    int empty();
+
+    DATA_TYPE get_front();
+
+    DATA_TYPE get_back();
+};
+
+/*************************************************************/
+/*               IMPLEMENTACION DE METODOS                   */
+/*************************************************************/
+
+// Insertar elemento al final
+DATA_TYPE DDqueue::put_back(DATA_TYPE valor)
+{
+    Nodo* temp;
+
+    temp = new Nodo;
+
+    if (temp == NULL)
+        return -1;
+
+    temp->data = valor;
+
+    items++;
+
+    // Si la lista está vacía
+    if (cabeza == NULL)
+    {
+        temp->next = NULL;
+        temp->prev = NULL;
+
+        cabeza = temp;
+        cola = temp;
+    }
+    else
+    {
+        cola->next = temp;
+
+        temp->prev = cola;
+
+        cola = temp;
+
+        cola->next = NULL;
+    }
+
+    return valor;
+}
+
+// Insertar elemento al frente
+DATA_TYPE DDqueue::put_front(DATA_TYPE valor)
+{
+    Nodo* temp;
+
+    temp = new Nodo;
+
+    if (temp == NULL)
+        return -1;
+
+    temp->data = valor;
+
+    items++;
+
+    // Si la lista está vacía
+    if (cabeza == NULL)
+    {
+        temp->next = NULL;
+        temp->prev = NULL;
+
+        cabeza = temp;
+        cola = temp;
+    }
+    else
+    {
+        cabeza->prev = temp;
+
+        temp->next = cabeza;
+
+        cabeza = temp;
+
+        cabeza->prev = NULL;
+    }
+
+    return valor;
+}
+
+// Verifica si está vacía
+int DDqueue::empty()
+{
+    return items == 0;
+}
+
+// Retirar elemento del frente
+DATA_TYPE DDqueue::get_front()
+{
+    Nodo* temp;
+
+    DATA_TYPE d;
+
+    if (empty())
+        return -1;
+
+    items--;
+
+    d = cabeza->data;
+
+    temp = cabeza->next;
+
+    if (cabeza)
+        delete cabeza;
+
+    cabeza = temp;
+
+    return d;
+}
+
+// Retirar elemento del final
+DATA_TYPE DDqueue::get_back()
+{
+    Nodo* temp;
+
+    DATA_TYPE d;
+
+    if (empty())
+        return -1;
+
+    items--;
+
+    d = cola->data;
+
+    temp = cola->prev;
+
+    if (cola)
+        delete cola;
+
+    cola = temp;
+
+    return d;
+}
+
+/*************************************************************/
+/*                           MAIN                            */
+/*************************************************************/
+
+int main()
+{
+    DDqueue s;
+
+    DATA_TYPE d;
+
+    cout << "===================================" << endl;
+    cout << "        DOBLE COLA (DEQUE)         " << endl;
+    cout << "===================================" << endl;
+
+    // Insertando letras al final
+    cout << "\nInsertando letras al final...\n";
+
+    for (d = 'A'; d <= 'Z'; d++)
+    {
+        s.put_back(d);
+    }
+
+    // Insertando números al frente
+    cout << "Insertando numeros al frente...\n";
+
+    for (d = 9; d >= 0; d--)
+    {
+        s.put_front(d + '0');
+    }
+
+    // Mostrando contenido
+    cout << "\nElementos de la doble cola:\n";
+
+    while (!s.empty())
+    {
+        cout << (DATA_TYPE)s.get_front() << " ";
+    }
+
+    cout << "\n\nLa doble cola esta vacia." << endl;
+
+    cout << "\nPresione Enter para terminar...";
+    cin.get();
+
+    return 0;
+}
