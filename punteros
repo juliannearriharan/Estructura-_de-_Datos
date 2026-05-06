@@ -1,0 +1,78 @@
+/*************************************************************/
+/*          PROGRAMA DE PUNTEROS Y MEMORIA DINÁMICA          */
+/*                    Autor: Julianne                        */
+/*************************************************************/
+
+#include <iostream>
+#include <cstdlib> // Necesario para malloc
+
+using namespace std;
+
+int main()
+{
+    // Declaración de puntero
+    int* p;
+
+    // Variable normal
+    int x = 10;
+
+    // El puntero guarda la dirección de x
+    p = &x;
+
+    cout << "=========== PUNTEROS EN C++ ===========" << endl;
+
+    // Dirección de memoria de x
+    cout << "\nDireccion almacenada en p: "
+         << p << endl;
+
+    // Valor contenido en x usando el puntero
+    cout << "Valor apuntado por p: "
+         << *p << endl;
+
+    // Cambiando el valor usando el puntero
+    *p = 50;
+
+    cout << "\nDespues de modificar usando *p:\n";
+
+    // Dirección sigue siendo la misma
+    cout << "Direccion almacenada en p: "
+         << p << endl;
+
+    // Nuevo valor
+    cout << "Nuevo valor apuntado por p: "
+         << *p << endl;
+
+    /*************************************************************/
+    /*              MEMORIA DINAMICA CON MALLOC                  */
+    /*************************************************************/
+
+    // Reservar memoria dinámica para un entero
+    p = (int*) malloc(sizeof(int));
+
+    // Verificar si malloc funcionó
+    if (p == NULL)
+    {
+        cout << "\nError al reservar memoria." << endl;
+        return 1;
+    }
+
+    // Asignar valor a la memoria dinámica
+    *p = 100;
+
+    cout << "\n=========== MEMORIA DINAMICA ===========" << endl;
+
+    // Dirección reservada dinámicamente
+    cout << "\nDireccion dinamica almacenada en p: "
+         << p << endl;
+
+    // Valor guardado en esa dirección
+    cout << "Valor almacenado en memoria dinamica: "
+         << *p << endl;
+
+    // Liberar memoria
+    free(p);
+
+    cout << "\nMemoria liberada correctamente." << endl;
+
+    return 0;
+}
