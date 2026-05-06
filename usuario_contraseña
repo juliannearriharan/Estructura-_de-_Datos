@@ -1,0 +1,120 @@
+/*************************************************************/
+/*         PROGRAMA DE USUARIO Y CONTRASEÑA EN C++           */
+/*                    Autor: Julianne                        */
+/*************************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+/*************************************************************/
+/*                     CLASE USUARIO                         */
+/*************************************************************/
+class Usuario
+{
+private:
+
+    // Atributo privado
+    string contrasenaOficial;
+
+public:
+
+    // Constructor
+    Usuario();
+
+    // Getter
+    string getContrasenaOficial();
+
+    // Setter
+    void setContrasenaOficial(string contrasena);
+
+    // Métodos
+    void registrar();
+
+    bool comparar();
+};
+
+/*************************************************************/
+/*                IMPLEMENTACION DE METODOS                  */
+/*************************************************************/
+
+// Constructor
+Usuario::Usuario()
+{
+    contrasenaOficial = "";
+}
+
+// Getter
+string Usuario::getContrasenaOficial()
+{
+    return contrasenaOficial;
+}
+
+// Setter
+void Usuario::setContrasenaOficial(string contrasena)
+{
+    contrasenaOficial = contrasena;
+}
+
+// Registrar contraseña
+void Usuario::registrar()
+{
+    string pass;
+
+    cout << "Ingrese la contraseña: ";
+
+    cin >> pass;
+
+    setContrasenaOficial(pass);
+
+    cout << "\nContraseña registrada correctamente.\n";
+}
+
+// Comparar contraseña
+bool Usuario::comparar()
+{
+    string contrasenaIngresada;
+
+    cout << "\nVerifique la contraseña: ";
+
+    cin >> contrasenaIngresada;
+
+    if (contrasenaIngresada == getContrasenaOficial())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+/*************************************************************/
+/*                           MAIN                            */
+/*************************************************************/
+
+int main()
+{
+    // Crear objeto
+    Usuario u;
+
+    cout << "===================================" << endl;
+    cout << "      SISTEMA DE CONTRASEÑAS       " << endl;
+    cout << "===================================" << endl;
+
+    // Registrar contraseña
+    u.registrar();
+
+    // Verificar contraseña
+    if (u.comparar())
+    {
+        cout << "\nAcceso permitido." << endl;
+    }
+    else
+    {
+        cout << "\nError: Contraseña incorrecta." << endl;
+    }
+
+    return 0;
+}
