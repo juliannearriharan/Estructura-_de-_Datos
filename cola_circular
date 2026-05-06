@@ -1,0 +1,205 @@
+/*************************************************************/
+/*           PROGRAMA DE COLA CIRCULAR EN C++                */
+/*                    Autor: Julianne                        */
+/*************************************************************/
+
+#pragma once
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+/*************************************************************/
+/*                         CLASE NODO                        */
+/*************************************************************/
+class Nodo
+{
+public:
+    string valor;
+    Nodo* sig;
+
+    // Constructor
+    Nodo(string v)
+    {
+        valor = v;
+        sig = nullptr;
+    }
+};
+
+/*************************************************************/
+/*                  CLASE COLA CIRCULAR                      */
+/*************************************************************/
+class ColaCircular
+{
+private:
+    Nodo* frente;
+    Nodo* final;
+
+public:
+
+    // Constructor
+    ColaCircular()
+    {
+        frente = nullptr;
+        final = nullptr;
+    }
+
+    // Destructor
+    ~ColaCircular();
+
+    // Métodos
+    void encolar(const string& valor);
+
+    string desencolar();
+
+    bool estaVacia();
+
+    void mostrar();
+};
+
+/*************************************************************/
+/*                  IMPLEMENTACION METODOS                   */
+/*************************************************************/
+
+// Destructor
+ColaCircular::~ColaCircular()
+{
+    while (!estaVacia())
+    {
+        desencolar();
+    }
+}
+
+// Encolar elemento
+void ColaCircular::encolar(const string& valor)
+{
+    Nodo* nuevo = new Nodo(valor);
+
+    // Si la cola está vacía
+    if (!frente)
+    {
+        frente = final = nuevo;
+
+        // Apunta a sí mismo
+        nuevo->sig = nuevo;
+    }
+    else
+    {
+        nuevo->sig = frente;
+
+        final->sig = nuevo;
+
+        final = nuevo;
+    }
+
+    cout << "Se encolo: " << valor << endl;
+}
+
+// Desencolar elemento
+string ColaCircular::desencolar()
+{
+    if (estaVacia())
+    {
+        return "COLA VACIA";
+    }
+
+    string dato;
+
+    // Solo un elemento
+    if (frente == final)
+    {
+        dato = frente->valor;
+
+        delete frente;
+
+        frente = final = nullptr;
+    }
+    else
+    {
+        Nodo* temp = frente;
+
+        dato = temp->valor;
+
+        frente = frente->sig;
+
+        final->sig = frente;
+
+        delete temp;
+    }
+
+    return dato;
+}
+
+// Verificar si está vacía
+bool ColaCircular::estaVacia()
+{
+    return frente == nullptr;
+}
+
+// Mostrar elementos
+void ColaCircular::mostrar()
+{
+    if (estaVacia())
+    {
+        cout << "La cola esta vacia.\n";
+        return;
+    }
+
+    Nodo* actual = frente;
+
+    cout << "\nElementos de la cola:\n";
+
+    do
+    {
+        cout << "[" << actual->valor << "] ";
+
+        actual = actual->sig;
+
+    } while (actual != frente);
+
+    cout << endl;
+}
+
+/*************************************************************/
+/*                           MAIN                            */
+/*************************************************************/
+
+int main()
+{
+    ColaCircular cola;
+
+    cout << "===================================" << endl;
+    cout << "        COLA CIRCULAR EN C++       " << endl;
+    cout << "===================================" << endl;
+
+    // Encolar elementos
+    cola.encolar("Juan");
+    cola.encolar("Maria");
+    cola.encolar("Pedro");
+
+    // Mostrar cola
+    cola.mostrar();
+
+    // Desencolar
+    cout << "\nAtendiendo: "
+         << cola.desencolar() << endl;
+
+    cola.mostrar();
+
+    // Agregar nuevo elemento
+    cola.encolar("Luis");
+
+    cola.mostrar();
+
+    // Desencolar nuevamente
+    cout << "\nAtendiendo: "
+         << cola.desencolar() << endl;
+
+    cout << "Atendiendo: "
+         << cola.desencolar() << endl;
+
+    // Mostrar cola final
+    cola.mostrar();
+
+    return 0;
+}
