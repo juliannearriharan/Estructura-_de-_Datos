@@ -1,0 +1,305 @@
+/*************************************************************/
+/*       PROGRAMA DE PILA CON LISTA ENLAZADA EN C++          */
+/*                    Autor: Julianne                        */
+/*************************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+/*************************************************************/
+/*                         CLASE NODO                        */
+/*************************************************************/
+class Nodo
+{
+public:
+
+    int dato;
+    string nombre;
+
+    Nodo* sig;
+};
+
+/*************************************************************/
+/*                         CLASE PILA                        */
+/*************************************************************/
+class Pila
+{
+private:
+
+    Nodo* tope;
+
+public:
+
+    // Constructor
+    Pila();
+
+    // Métodos
+    void push();
+
+    void pop();
+
+    void show();
+
+    void top();
+
+    void size();
+};
+
+/*************************************************************/
+/*                  IMPLEMENTACION PILA                      */
+/*************************************************************/
+
+// Constructor
+Pila::Pila()
+{
+    tope = NULL;
+}
+
+// Insertar elemento
+void Pila::push()
+{
+    int valor;
+    string valor2;
+
+    Nodo* aux = new Nodo;
+
+    system("cls");
+
+    cout << "Ingresa el ID del proceso: ";
+    cin >> valor;
+
+    cin.ignore();
+
+    cout << "Ingresa el nombre del proceso: ";
+    getline(cin, valor2);
+
+    aux->dato = valor;
+
+    aux->nombre = valor2;
+
+    aux->sig = NULL;
+
+    // Insertar al inicio
+    if (tope != NULL)
+    {
+        aux->sig = tope;
+    }
+
+    tope = aux;
+
+    cout << "\nNuevo proceso insertado correctamente.\n";
+
+    system("pause");
+}
+
+// Eliminar elemento
+void Pila::pop()
+{
+    if (tope == NULL)
+    {
+        system("cls");
+
+        cout << "\nLa pila esta vacia.\n\n";
+
+        system("pause");
+    }
+    else
+    {
+        Nodo* temp = tope;
+
+        tope = tope->sig;
+
+        system("cls");
+
+        cout << "\nProceso eliminado:\n";
+
+        cout << temp->dato
+             << " - "
+             << temp->nombre
+             << "\n" << endl;
+
+        delete temp;
+
+        system("pause");
+    }
+}
+
+// Mostrar pila completa
+void Pila::show()
+{
+    Nodo* aux1 = tope;
+
+    if (tope == NULL)
+    {
+        system("cls");
+
+        cout << "\nLa pila esta vacia.\n\n";
+
+        system("pause");
+    }
+    else
+    {
+        system("cls");
+
+        cout << "========== PROCESOS ==========\n" << endl;
+
+        while (aux1 != NULL)
+        {
+            cout << "ID: "
+                 << aux1->dato
+                 << " | Nombre: "
+                 << aux1->nombre
+                 << "\n" << endl;
+
+            aux1 = aux1->sig;
+        }
+
+        system("pause");
+    }
+}
+
+// Mostrar elemento TOP
+void Pila::top()
+{
+    Nodo* aux1 = tope;
+
+    if (tope == NULL)
+    {
+        system("cls");
+
+        cout << "\nLa pila esta vacia.\n\n";
+
+        system("pause");
+    }
+    else
+    {
+        system("cls");
+
+        cout << "========== PROCESO TOP ==========\n" << endl;
+
+        cout << "ID: "
+             << aux1->dato
+             << " | Nombre: "
+             << aux1->nombre
+             << "\n" << endl;
+
+        system("pause");
+    }
+}
+
+// Tamaño de la pila
+void Pila::size()
+{
+    Nodo* aux1 = tope;
+
+    if (tope == NULL)
+    {
+        system("cls");
+
+        cout << "\nLa pila esta vacia.\n\n";
+
+        system("pause");
+    }
+    else
+    {
+        int contador = 0;
+
+        while (aux1 != NULL)
+        {
+            contador++;
+
+            aux1 = aux1->sig;
+        }
+
+        system("cls");
+
+        cout << "El tamaño de la pila es: "
+             << contador
+             << "\n" << endl;
+
+        system("pause");
+    }
+}
+
+/*************************************************************/
+/*                           MAIN                            */
+/*************************************************************/
+
+int main()
+{
+    Pila l;
+
+    int opcion;
+
+    do
+    {
+        system("cls");
+
+        cout << "===================================" << endl;
+        cout << "     PILA EN LISTA ENLAZADA        " << endl;
+        cout << "===================================" << endl;
+
+        cout << "[1] Push" << endl;
+        cout << "[2] Pop" << endl;
+        cout << "[3] Mostrar" << endl;
+        cout << "[4] Top" << endl;
+        cout << "[5] Size" << endl;
+        cout << "[0] Salir" << endl;
+
+        cout << "\nIngresa tu opcion: ";
+        cin >> opcion;
+
+        switch (opcion)
+        {
+
+        case 1:
+
+            l.push();
+
+            break;
+
+        case 2:
+
+            l.pop();
+
+            break;
+
+        case 3:
+
+            l.show();
+
+            break;
+
+        case 4:
+
+            l.top();
+
+            break;
+
+        case 5:
+
+            l.size();
+
+            break;
+
+        case 0:
+
+            cout << "\nSaliendo del programa...\n";
+
+            break;
+
+        default:
+
+            cout << "\nPor favor ingresa una opcion correcta.\n";
+
+            system("pause");
+
+            break;
+        }
+
+    } while (opcion != 0);
+
+    return 0;
+}
