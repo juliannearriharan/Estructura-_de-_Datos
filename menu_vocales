@@ -1,0 +1,264 @@
+// Programa: Manipulación de Strings en C++
+// Autor: Julianne
+// Descripción: Menú con diferentes operaciones usando cadenas
+
+#include <iostream>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+// Prototipos de funciones
+string invfrase(string frase);
+string quitarVocal(string frase);
+void intercambiar(string& var1, string& var2);
+string sacarSubstring(string frase, int inicio, int cantidad);
+int contarVocales(string frase);
+string quitarEspacios(string frase);
+void encontrarCaracter(string frase, char caracter);
+int longitudFrase(string frase);
+void compararFrases(string frase1, string frase2);
+
+int main() {
+    int opcion;
+    string frase, var1, var2;
+
+    do {
+        cout << "\n==================================" << endl;
+        cout << "     MENU DE STRINGS EN C++       " << endl;
+        cout << "==================================" << endl;
+        cout << "1. Invertir frase" << endl;
+        cout << "2. Quitar vocales" << endl;
+        cout << "3. Intercambiar palabras" << endl;
+        cout << "4. Sacar un substring" << endl;
+        cout << "5. Contar vocales" << endl;
+        cout << "6. Quitar espacios" << endl;
+        cout << "7. Encontrar caracteres" << endl;
+        cout << "8. Longitud" << endl;
+        cout << "9. Comparar frases" << endl;
+        cout << "0. Salir" << endl;
+        cout << "Introduce una opcion: ";
+        cin >> opcion;
+
+        cin.ignore();
+
+        switch (opcion) {
+
+        case 1:
+            cout << "Introduce la frase a invertir: ";
+            getline(cin, frase);
+
+            cout << "Frase invertida: "
+                 << invfrase(frase) << endl;
+            break;
+
+        case 2:
+            cout << "Introduce la frase para quitar vocales: ";
+            getline(cin, frase);
+
+            cout << "La frase sin vocales es: "
+                 << quitarVocal(frase) << endl;
+            break;
+
+        case 3:
+            cout << "Ingrese la primera palabra: ";
+            cin >> var1;
+
+            cout << "Ingrese la segunda palabra: ";
+            cin >> var2;
+
+            intercambiar(var1, var2);
+
+            cout << "Nueva palabra 1: " << var1 << endl;
+            cout << "Nueva palabra 2: " << var2 << endl;
+            break;
+
+        case 4: {
+            int inicio, cantidad;
+
+            cout << "Ingrese una frase: ";
+            getline(cin, frase);
+
+            cout << "Posicion inicial: ";
+            cin >> inicio;
+
+            cout << "Cantidad de caracteres: ";
+            cin >> cantidad;
+
+            cout << "Substring: "
+                 << sacarSubstring(frase, inicio, cantidad) << endl;
+            break;
+        }
+
+        case 5:
+            cout << "Ingrese una frase: ";
+            getline(cin, frase);
+
+            cout << "Cantidad de vocales: "
+                 << contarVocales(frase) << endl;
+            break;
+
+        case 6:
+            cout << "Ingrese una frase: ";
+            getline(cin, frase);
+
+            cout << "Frase sin espacios: "
+                 << quitarEspacios(frase) << endl;
+            break;
+
+        case 7: {
+            char caracter;
+
+            cout << "Ingrese una frase: ";
+            getline(cin, frase);
+
+            cout << "Ingrese el caracter a buscar: ";
+            cin >> caracter;
+
+            encontrarCaracter(frase, caracter);
+            break;
+        }
+
+        case 8:
+            cout << "Ingrese una frase: ";
+            getline(cin, frase);
+
+            cout << "La longitud es: "
+                 << longitudFrase(frase) << endl;
+            break;
+
+        case 9: {
+            string frase1, frase2;
+
+            cout << "Ingrese la primera frase: ";
+            getline(cin, frase1);
+
+            cout << "Ingrese la segunda frase: ";
+            getline(cin, frase2);
+
+            compararFrases(frase1, frase2);
+            break;
+        }
+
+        case 0:
+            cout << "Saliendo del programa..." << endl;
+            break;
+
+        default:
+            cout << "Opcion no valida." << endl;
+            break;
+        }
+
+    } while (opcion != 0);
+
+    return 0;
+}
+
+// Función Invertir Frase
+string invfrase(string frase) {
+    string fraseinv = "";
+
+    for (int i = frase.length() - 1; i >= 0; i--) {
+        fraseinv += frase[i];
+    }
+
+    return fraseinv;
+}
+
+// Función Quitar Vocales
+string quitarVocal(string frase) {
+    string aux = "";
+
+    for (int i = 0; i < frase.length(); i++) {
+
+        if (frase[i] != 'a' && frase[i] != 'e' &&
+            frase[i] != 'i' && frase[i] != 'o' &&
+            frase[i] != 'u' && frase[i] != 'A' &&
+            frase[i] != 'E' && frase[i] != 'I' &&
+            frase[i] != 'O' && frase[i] != 'U') {
+
+            aux += frase[i];
+        }
+    }
+
+    return aux;
+}
+
+// Función Intercambiar Palabras
+void intercambiar(string& var1, string& var2) {
+    var1.swap(var2);
+}
+
+// Función Sacar Substring
+string sacarSubstring(string frase, int inicio, int cantidad) {
+    return frase.substr(inicio, cantidad);
+}
+
+// Función Contar Vocales
+int contarVocales(string frase) {
+    int contador = 0;
+
+    for (int i = 0; i < frase.length(); i++) {
+
+        if (frase[i] == 'a' || frase[i] == 'e' ||
+            frase[i] == 'i' || frase[i] == 'o' ||
+            frase[i] == 'u' || frase[i] == 'A' ||
+            frase[i] == 'E' || frase[i] == 'I' ||
+            frase[i] == 'O' || frase[i] == 'U') {
+
+            contador++;
+        }
+    }
+
+    return contador;
+}
+
+// Función Quitar Espacios
+string quitarEspacios(string frase) {
+    string aux = "";
+
+    for (int i = 0; i < frase.length(); i++) {
+
+        if (frase[i] != ' ') {
+            aux += frase[i];
+        }
+    }
+
+    return aux;
+}
+
+// Función Encontrar Caracter
+void encontrarCaracter(string frase, char caracter) {
+
+    bool encontrado = false;
+
+    for (int i = 0; i < frase.length(); i++) {
+
+        if (frase[i] == caracter) {
+            cout << "Caracter encontrado en la posicion: "
+                 << i << endl;
+
+            encontrado = true;
+        }
+    }
+
+    if (!encontrado) {
+        cout << "Caracter no encontrado." << endl;
+    }
+}
+
+// Función Longitud
+int longitudFrase(string frase) {
+    return frase.length();
+}
+
+// Función Comparar Frases
+void compararFrases(string frase1, string frase2) {
+
+    if (frase1 == frase2) {
+        cout << "Las frases son iguales." << endl;
+    }
+    else {
+        cout << "Las frases son diferentes." << endl;
+    }
+}
