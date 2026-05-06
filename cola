@@ -1,0 +1,113 @@
+/*---------------------------------------------------------------+
+| Programa: Cola (QUEUE) usando arreglo estático en C++          |
+| Autor: Julianne                                                |
+| Descripción: Implementación básica de una cola FIFO            |
++---------------------------------------------------------------*/
+
+#include <iostream>
+
+using namespace std;
+
+#define MAX_SIZE 256
+
+// Definimos un arreglo de caracteres
+typedef char almacen[MAX_SIZE];
+
+class Queue {
+
+private:
+    int cabeza;
+    int cola;
+    int ITEMS;
+    almacen alma;
+
+public:
+
+    // Constructor
+    Queue() {
+        cabeza = 0;
+        cola = 0;
+        ITEMS = 0;
+    }
+
+    // Destructor
+    ~Queue() {}
+
+    // Verificar si la cola está vacía
+    int empty() {
+        return ITEMS == 0;
+    }
+
+    // Insertar elemento en la cola
+    int put(char d) {
+
+        // Verifica si la cola está llena
+        if (ITEMS == MAX_SIZE)
+            return -1;
+
+        // Reinicia cola si llega al final
+        if (cola >= MAX_SIZE) {
+            cola = 0;
+        }
+
+        alma[cola] = d;
+        cola++;
+        ITEMS++;
+
+        return d;
+    }
+
+    // Retirar elemento de la cola
+    int get() {
+
+        // Verifica si está vacía
+        if (empty())
+            return -1;
+
+        char d = alma[cabeza];
+
+        // Movimiento circular
+        cabeza = (cabeza + 1) % MAX_SIZE;
+
+        ITEMS--;
+
+        return d;
+    }
+
+    // Mostrar cantidad de elementos
+    int size() {
+        return ITEMS;
+    }
+};
+
+int main() {
+
+    Queue q;
+
+    // Insertar letras del abecedario
+    for (int d = 'A'; d <= 'Z'; d++) {
+        q.put((char)d);
+    }
+
+    cout << "===================================" << endl;
+    cout << "     EJEMPLO DE COLA (QUEUE)       " << endl;
+    cout << "===================================" << endl;
+
+    cout << "\nCantidad de elementos: "
+         << q.size() << endl;
+
+    cout << "\nElementos retirados de la cola:\n";
+
+    // Retirar elementos
+    while (q.size()) {
+
+        cout << (char)q.get() << " ";
+    }
+
+    cout << "\n\nLa cola ahora esta vacia." << endl;
+
+    cout << "\nPresione Enter para terminar...";
+    cin.get();
+
+    return 0;
+}
